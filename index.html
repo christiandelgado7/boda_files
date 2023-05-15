@@ -3,26 +3,30 @@
 <head>
   <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
-<body style="
-    background: transparent;
-    display: block;
-    width: 100%;
-    height: 100%;
-    position: absolute;
-">
+<body style="background: transparent;">
 
 <style>
 </style>
 
 <style>
 
-	#wrapper-envelope {
-		max-width: 800px;
-		max-height: 700px;
-		width: 100%;
-		height: 100%;
-		position: relative;
-	}
+    #wrapper-body {
+
+        background: transparent;
+        display: block;
+        width: 100%;
+        height: 100%;
+        position: absolute;
+    }
+
+    #wrapper-envelope {
+        /*max-width: 800px;*/
+        /*max-height: 700px;*/
+        width: 100%;
+        height: 100%;
+        position: relative;
+    }
+
     #envelope {
         position: relative;
         top: calc(50% - 200px);
@@ -167,60 +171,63 @@
 
   }
 </script>
-<div id='wrapper-envelope'>
-  <div id='envelope'>
-    <div id='back'>
-      <svg xmlns="http://www.w3.org/2000/svg"
-           xmlns:xlink="http://www.w3.org/1999/xlink"
-           height="300" width="300">
-        <defs>
-          <pattern id="env_front" x="0" y="0" width="1" height="1">
-            <image width="100%" height="100%" preserveAspectRatio="none"
-                   xlink:href="https://christiandelgado7.github.io/boda_files/envfront.png"/>
-          </pattern>
-          <pattern id="env_back" x="0" y="0" width="1" height="1">
-            <image width="100%" height="100%" preserveAspectRatio="none"
-                   xlink:href="https://christiandelgado7.github.io/boda_files/envback.png"/>
-          </pattern>
-        </defs>
-        <polygon
-                points="0,100 300,100 300,300 0,300"
-                style="fill:url(#env_back)#796479;stroke:none;stroke-width:0"/>
-      </svg>
-    </div>
-    <div id='front'>
-      <svg xmlns="http://www.w3.org/2000/svg"
-           xmlns:xlink="http://www.w3.org/1999/xlink"
-           height="300" width="300">
 
-        <polygon
-                points="0,100 150,200 300,100 300,300 0,300"
-                style="fill:url(#env_front)#d9b0c4; stroke:#eedfc5; stroke-width:3"/>
+<div id='wrapper-body'>
+  <div id='wrapper-envelope'>
+    <div id='envelope'>
+      <div id='back'>
+        <svg xmlns="http://www.w3.org/2000/svg"
+             xmlns:xlink="http://www.w3.org/1999/xlink"
+             height="300" width="300">
+          <defs>
+            <pattern id="env_front" x="0" y="0" width="1" height="1">
+              <image width="100%" height="100%" preserveAspectRatio="none"
+                     xlink:href="https://christiandelgado7.github.io/boda_files/envfront.png"/>
+            </pattern>
+            <pattern id="env_back" x="0" y="0" width="1" height="1">
+              <image width="100%" height="100%" preserveAspectRatio="none"
+                     xlink:href="https://christiandelgado7.github.io/boda_files/envback.png"/>
+            </pattern>
+          </defs>
+          <polygon
+                  points="0,100 300,100 300,300 0,300"
+                  style="fill:url(#env_back)#796479;stroke:none;stroke-width:0"/>
+        </svg>
+      </div>
+      <div id='front'>
+        <svg xmlns="http://www.w3.org/2000/svg"
+             xmlns:xlink="http://www.w3.org/1999/xlink"
+             height="300" width="300">
 
-      </svg>
-    </div>
-    <div id='top'>
-      <svg xmlns="http://www.w3.org/2000/svg"
-           xmlns:xlink="http://www.w3.org/1999/xlink"
-           height="300" width="300">
+          <polygon
+                  points="0,100 150,200 300,100 300,300 0,300"
+                  style="fill:url(#env_front)#d9b0c4; stroke:#eedfc5; stroke-width:3"/>
 
-        <polygon
-                points="0,100 150,200 300,100"
-                style="fill:url(#env_front)#d9b0c4;stroke:#eedfc5;stroke-width:2">
-          <animate id='opentop' attributeName="points" dur="0.5s" fill="freeze"
-                   begin="indefinite"
-                   from="0,100 150,200 300,100"
-                   to="0,100 150,0 300,100"/>
-        </polygon>
+        </svg>
+      </div>
+      <div id='top'>
+        <svg xmlns="http://www.w3.org/2000/svg"
+             xmlns:xlink="http://www.w3.org/1999/xlink"
+             height="300" width="300">
 
-      </svg>
+          <polygon
+                  points="0,100 150,200 300,100"
+                  style="fill:url(#env_front)#d9b0c4;stroke:#eedfc5;stroke-width:2">
+            <animate id='opentop' attributeName="points" dur="0.5s" fill="freeze"
+                     begin="indefinite"
+                     from="0,100 150,200 300,100"
+                     to="0,100 150,0 300,100"/>
+          </polygon>
+
+        </svg>
+      </div>
+      <div id='letter'>
+        <img src='https://christiandelgado7.github.io/boda_files/invitacion.svg'>
+      </div>
+      <button onclick='openUp()'>
+        Abreme
+      </button>
     </div>
-    <div id='letter'>
-      <img src='https://christiandelgado7.github.io/boda_files/invitacion.svg'>
-    </div>
-    <button onclick='openUp()'>
-      Abreme
-    </button>
   </div>
 </div>
 

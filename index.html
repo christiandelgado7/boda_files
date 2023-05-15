@@ -1,244 +1,227 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
-<body>
+<body style="
+    background: transparent;
+    display: block;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+">
 
 <style>
-	#page {
-		width:100%;
-		height:100%;
+</style>
+
+<style>
+
+	#wrapper-envelope {
+		max-width: 800px;
+		max-height: 700px;
+		width: 100%;
+		height: 100%;
+		position: relative;
 	}
-	#envelope {
-		position:absolute;
-		top: calc(50vh - 200px);
-		left: calc(50vw - 150px);
-		width:300px;
-		height:300px;
-		/*top: 0px;*/
-		/*left: 0px;*/
+    #envelope {
+        position: relative;
+        top: calc(50% - 200px);
+        left: calc(50vw - 150px);
+        width: 300px;
+        height: 300px;
+    }
 
-		/*width:100%;*/
-		/*height:100%;*/
-	}
+    #envelope > * {
+        position: absolute;
+        top: 0;
+        left: 0;
+        display: none;
+    }
 
-	#envelope > * {
-		position:absolute;
-		top: 0;
-		left: 0;
-		display:none;
-	}
+    #back {
+        display: block;
+        z-index: 0;
+    }
 
-	#back {
-		display:block;
-		z-index:0;
-	}
+    #front {
+        display: block;
+        z-index: 10;
+    }
 
-	#front {
-		display:block;
-		z-index:10;
-	}
+    #top {
+        display: block;
+        z-index: 11;
+    }
 
-	#top {
-		display:block;
-		z-index:11;
-	}
+    #top.animate, #front.animate, #back.animate, #envelope button.animate {
+        opacity: 0;
+        transition: opacity 1.5s;
+        transition-delay: 1s;
+    }
 
-	#top.animate, #front.animate, #back.animate, #envelope button.animate {
-		opacity:0;
-		transition: opacity 1s;
-		transition-delay: 1s;
-	}
+    #letter {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        background-color: transparent;
+        z-index: 5;
+        top: 105px;
+        left: 80px;
+        right: 80px;
+        overflow: hidden;
+        font-size: 16px;
+        justify-content: center;
+    }
 
-	#letter {
-		display:flex;
-		flex-direction:column;
-		justify-content:space-around;
-		align-items:center;
-		background-color: transparent;
-		z-index:5;
-		left:82px;
-		bottom:5px;
-		top:105px;
-		/* https://boxshadows.com/presets */
-		box-shadow:0px 1px 3px 0px rgba(0,0,0,0.1) , 0px 1px 2px 0px rgba(0,0,0,0.06) ;
-		overflow:hidden;
-		font-size:16px;
+    #letter.animate {
+        animation: makebig 3s forwards;
+        animation-delay: 1s;
+    }
 
-
-
-	}
-
-	#letter.animate {
-		animation:makebig 3s forwards;
-		animation-delay: 1s;
-	}
-
-	#envelope.animate {
-		animation:movebig 3s forwards;
-		animation-delay: 1s;
-	}
-
-	@keyframes movebig {
-		0% {
-			top: calc(50vh - 200px);
-			left: calc(50vw - 150px);
-			bottom: 5px;
-			font-size: 16px;
-		}
-		25% {
-			top: 0px;
-			left: calc(50vw - 150px);
-			bottom: 150px;
-			font-size: 16px;
-		}
-		100% {
-			top: 0px;
-			left: 0px;
-			bottom: calc((-100vh + 315px));
-			font-size: 24px;
-		}
-	}
-
-	@keyframes makebig {
-		0% {
-			top: 105px;
-			left:82px;
-			bottom: 5px;
-			font-size: 16px;
-		}
-		25% {
-			top: 0px;
-			left:82px;
-			bottom: 150px;
-			font-size: 16px;
-		}
-		100% {
-			top: 0px;
-			left: 0px;
-			bottom: calc((-100vh + 315px));
-			font-size: 24px;
-		}
-	}
+    @keyframes makebig {
+        0% {
+            left: 80px;
+            right: 80px;
+            top: 105px;
+            font-size: 16px;
+        }
+        25% {
+            left: 80px;
+            right: 80px;
+            top: -110px;
+            font-size: 16px;
+        }
+        100% {
+            left: calc(-50vw + 150px);
+            right: calc(-50vw + 150px);
+            top: -150px;
+            font-size: 24px;
+        }
+    }
 
 
-	#letter h1 {
-		font-size:inherit;
-	}
+    #letter h1 {
+        font-size: inherit;
+    }
 
-	#letter h2 {
-		font-size:inherit;
-	}
+    #letter h2 {
+        font-size: inherit;
+    }
 
-	#letter img {
-		height:100%;
-	}
+    #letter img {
+        height: 100%;
+        width: 100%;
+        max-height: 700px;
 
-	#envelope button {
-		display: block;
-		z-index: 15;
-		width: 70px;
-		height: 40px;
-		border-radius: 50%;
-		border: none;
-		background-color: #f9d585;
-		background: url('envback.png') no-repeat top left;
-		font-weight: bold;
-		text-align: center;
-		color: #f1e5ca;
-		cursor: pointer;
-		top: calc(200px - 25px);
-		left: calc(140px - 25px);
-		transition: transform 1s, background-color 1s, color 1s;
 
-	}
+        /* https://boxshadows.com/presets */
+        box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.1), 0px 1px 2px 0px rgba(0, 0, 0, 0.06);
 
-	#envelope button:hover {
-		background-color:pink;
-		transform:scale(1.5);
-		color: black;
-		transition: transform 1s, background-color 1s, color 1s;
-	}
+    }
+
+    #envelope button {
+        position: absolute;
+        display: block;
+        z-index: 15;
+        width: 70px;
+        height: 40px;
+        border-radius: 50%;
+        border: none;
+        background-color: #f9d585;
+        background: url('https://christiandelgado7.github.io/boda_files/envback.png') no-repeat top left;
+        font-weight: bold;
+        text-align: center;
+        color: #f1e5ca;
+        cursor: pointer;
+        top: calc(200px - 25px);
+        left: calc(140px - 25px);
+        transition: transform 1s, background-color 1s, color 1s;
+
+    }
+
+    #envelope button:hover {
+        background-color: pink;
+        transform: scale(1.5);
+        color: black;
+        transition: transform 1s, background-color 1s, color 1s;
+    }
 
 </style>
 <script>
-	function openUp() {
-		const $opentop= document.querySelector('#opentop');
-		const $top= document.querySelector('#top');
-		const $front= document.querySelector('#front');
-		const $back= document.querySelector('#back');
-		const $letter= document.querySelector('#letter');
-		const $button= document.querySelector('button');
-		const $envelope= document.querySelector('#envelope');
+  function openUp() {
+    const $opentop = document.querySelector('#opentop');
+    const $top = document.querySelector('#top');
+    const $front = document.querySelector('#front');
+    const $back = document.querySelector('#back');
+    const $letter = document.querySelector('#letter');
+    const $button = document.querySelector('button');
 
-		$opentop.beginElement();
-		$top.style.zIndex = 2;
+    $opentop.beginElement();
+    $top.style.zIndex = 2;
 
-		$top.classList.add('animate');
-		$front.classList.add('animate');
-		$back.classList.add('animate');
-		$button.classList.add('animate');
-		$letter.classList.add('animate');
-		$envelope.classList.add('animate');
+    $top.classList.add('animate');
+    $front.classList.add('animate');
+    $back.classList.add('animate');
+    $button.classList.add('animate');
+    $letter.classList.add('animate');
 
-	}
+  }
 </script>
-<div id='page'>
-<div id='envelope'>
-	<div id='back'>
-		<svg xmlns="http://www.w3.org/2000/svg"
-				 xmlns:xlink= "http://www.w3.org/1999/xlink"
-				 height="300" width="300">
-			<defs>
-				<pattern id="env_front" x="0" y="0" width="1" height="1">
-					<image width="100%" height="100%" preserveAspectRatio="none"
-								 xlink:href="envfront.png"/>
-				</pattern>
-				<pattern id="env_back" x="0" y="0" width="1" height="1">
-					<image width="100%" height="100%" preserveAspectRatio="none"
-								 xlink:href="envback.png"/>
-				</pattern>
-			</defs>
-			<polygon
-							points="0,100 300,100 300,300 0,300"
-							style="fill:url(#env_back)#796479;stroke:none;stroke-width:0" />
-		</svg>
-	</div>
-	<div id='front'>
-		<svg xmlns="http://www.w3.org/2000/svg"
-				 xmlns:xlink= "http://www.w3.org/1999/xlink"
-				 height="300" width="300">
+<div id='wrapper-envelope'>
+  <div id='envelope'>
+    <div id='back'>
+      <svg xmlns="http://www.w3.org/2000/svg"
+           xmlns:xlink="http://www.w3.org/1999/xlink"
+           height="300" width="300">
+        <defs>
+          <pattern id="env_front" x="0" y="0" width="1" height="1">
+            <image width="100%" height="100%" preserveAspectRatio="none"
+                   xlink:href="https://christiandelgado7.github.io/boda_files/envfront.png"/>
+          </pattern>
+          <pattern id="env_back" x="0" y="0" width="1" height="1">
+            <image width="100%" height="100%" preserveAspectRatio="none"
+                   xlink:href="https://christiandelgado7.github.io/boda_files/envback.png"/>
+          </pattern>
+        </defs>
+        <polygon
+                points="0,100 300,100 300,300 0,300"
+                style="fill:url(#env_back)#796479;stroke:none;stroke-width:0"/>
+      </svg>
+    </div>
+    <div id='front'>
+      <svg xmlns="http://www.w3.org/2000/svg"
+           xmlns:xlink="http://www.w3.org/1999/xlink"
+           height="300" width="300">
 
-			<polygon
-							points="0,100 150,200 300,100 300,300 0,300"
-							style="fill:url(#env_front)#d9b0c4; stroke:#eedfc5; stroke-width:3" />
+        <polygon
+                points="0,100 150,200 300,100 300,300 0,300"
+                style="fill:url(#env_front)#d9b0c4; stroke:#eedfc5; stroke-width:3"/>
 
-		</svg>
-	</div>
-	<div id='top' >
-		<svg xmlns="http://www.w3.org/2000/svg"
-				 xmlns:xlink= "http://www.w3.org/1999/xlink"
-				 height="300" width="300">
+      </svg>
+    </div>
+    <div id='top'>
+      <svg xmlns="http://www.w3.org/2000/svg"
+           xmlns:xlink="http://www.w3.org/1999/xlink"
+           height="300" width="300">
 
-			<polygon
-							points="0,100 150,200 300,100"
-							style="fill:url(#env_front)#d9b0c4;stroke:#eedfc5;stroke-width:2">
-				<animate id='opentop' attributeName="points" dur="0.5s" fill="freeze"
-								 begin="indefinite"
-								 from="0,100 150,200 300,100"
-								 to="0,100 150,0 300,100"/>
-			</polygon>
+        <polygon
+                points="0,100 150,200 300,100"
+                style="fill:url(#env_front)#d9b0c4;stroke:#eedfc5;stroke-width:2">
+          <animate id='opentop' attributeName="points" dur="0.5s" fill="freeze"
+                   begin="indefinite"
+                   from="0,100 150,200 300,100"
+                   to="0,100 150,0 300,100"/>
+        </polygon>
 
-		</svg>
-	</div>
-	<div id='letter'>
-		<img src='invitacion.svg'>
-	</div>
-	<button onclick='openUp()'>
-		Abreme
-	</button>
-</div>
+      </svg>
+    </div>
+    <div id='letter'>
+      <img src='https://christiandelgado7.github.io/boda_files/invitacion.svg'>
+    </div>
+    <button onclick='openUp()'>
+      Abreme
+    </button>
+  </div>
 </div>
 
 

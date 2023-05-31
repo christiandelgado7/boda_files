@@ -1,236 +1,293 @@
-<!DOCTYPE html>
-<html>
+
 <head>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>TimelineMax test</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/2.0.1/TweenLite.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/2.0.1/TimelineMax.min.js"></script>
+  <script src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/35984/ScrubGSAPTimeline.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.5/gsap.min.js"></script>
+
+
 </head>
+
 <body style="background: transparent;">
-
-<style>
-</style>
-
 <style>
 
-    #wrapper-body {
-
+    .wrapper-invitation {
         background: transparent;
         display: block;
         width: 100%;
-        height: 100%;
+        /*height: 100%;*/
+        /*position: absolute;*/
+        /*height: 700px;*/
+        /*background-color: blue;*/
+        position: relative;
+        min-width: 400px;
+        min-height: 820px;
+        height: fit-content;
+    }
+    .invitation {
+        width: 500px;
         position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
     }
 
-    #wrapper-envelope {
-        /*max-width: 800px;*/
-        /*max-height: 700px;*/
+    .envelope {
+        /*background-image: url("https://christiandelgado7.github.io/boda_files/env-back.png");*/
+        background-image: url("https://i.imgur.com/iNwhtRI.png");
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        background-position: 50% 50%;
+        background-size: 515px 320px;
         width: 100%;
-        height: 100%;
+        height: 308px;
         position: relative;
+        z-index: 1;
     }
 
-    #envelope {
-        position: relative;
-        top: calc(50% - 200px);
-        left: calc(50vw - 150px);
-        width: 300px;
-        height: 300px;
-    }
-
-    #envelope > * {
+    .env_front {
+        /*background-image: url("https://christiandelgado7.github.io/boda_files/env-front.png");*/
+        background-image: url("https://i.imgur.com/mijEHut.png");
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        background-position: 50% 50%;
+        background-size: 516px 320px;
+        width: 100%;
+        height: 308px;
         position: absolute;
-        top: 0;
-        left: 0;
-        display: none;
+        z-index: 1;
+        top: 0px;
     }
 
-    #back {
-        display: block;
+    .env_top {
+        position: absolute;
+        left: 0px;
+        top: 0px;
+        transform-origin: 50% 0%;
+        z-index: 2;
+    }
+
+    .card_mask {
+        box-sizing: border-box;
+        -webkit-clip-path: inset(0 0 50% 0);
+        clip-path: inset(0 0 50% 0);
+        overflow: hidden;
+        position: relative;
+        height: 2010px;
         z-index: 0;
+        margin: auto;
+        top: 50%;
+        transform: translate(0, -50%);
+        perspective: 1200px;
+        width: 100%;
     }
 
-    #front {
-        display: block;
-        z-index: 10;
+    .card_invitation {
+        position: relative;
+        width: 480px;
+        height: 670px;
+        margin: auto;
+        transform-style: preserve-3d;
+        transform-origin: 50% 10%;
+        transform: translate(0, 128%) rotateY(0deg);
     }
 
-    #top {
-        display: block;
-        z-index: 11;
+    .card_front {
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        position: absolute;
+        background: transparent 50% 100%/auto 100% no-repeat;
+        box-shadow: 2px 3px 6px rgba(0, 0, 0, 0.3);
     }
 
-    #top.animate, #front.animate, #back.animate, #envelope button.animate {
+    .card_face {
+        /*background-image: url("https://christiandelgado7.github.io/boda_files/invitacion.png");*/
+        /*background-image: url("https://drive.google.com/uc?export=view&id=176w6VJW6zsa9z37H1MVsxsBEGID3duEe");*/
+        background-image: url("https://i.imgur.com/jh6A1Ud.jpg");
+    }
+
+    .env_btn {
+        font: normal 1.25em "Karla", sans-serif;
+        padding: 15px 30px;
+        border-radius: 30px;
+        border: none;
+        position: absolute;
+        left: 50%;
+        top: 170px;
+        transform: translate(-50%, -50%);
+        transform-origin: 50% 50%;
+        z-index: 2;
+        cursor: pointer;
+        transition: background 0.3s ease-out, color 0.3s ease-out;
+        appearance: none;
+        background-color: inherit;
+    }
+    .env_btn img {
+        scale: 0.7;
+    }
+
+    .env_btn.opened {
         opacity: 0;
         transition: opacity 1.5s;
-        transition-delay: 1s;
+        transition-delay: 1.8s;
     }
 
-    #letter {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        background-color: transparent;
-        z-index: 5;
-        top: 105px;
-        left: 80px;
-        right: 80px;
-        overflow: hidden;
-        font-size: 16px;
-        justify-content: center;
-    }
 
-    #letter.animate {
-        animation: makebig 3s forwards;
-        animation-delay: 1s;
-    }
-
-    @keyframes makebig {
-        0% {
-            left: 80px;
-            right: 80px;
-            top: 105px;
-            font-size: 16px;
-        }
-        25% {
-            left: 80px;
-            right: 80px;
-            top: -110px;
-            font-size: 16px;
-        }
-        100% {
-            left: calc(-50vw + 150px);
-            right: calc(-50vw + 150px);
-            top: -150px;
-            font-size: 24px;
+    @media only screen and (min-width: 661px) {
+        .wrapper-invitation {
+            min-width: 400px;
+            min-height: 770px;
         }
     }
 
-
-    #letter h1 {
-        font-size: inherit;
+    @media only screen and (max-width: 660px) {
+        .wrapper-invitation {
+            transform: scale(0.8);
+            min-width: 400px;
+            min-height: 625px;
+        }
     }
 
-    #letter h2 {
-        font-size: inherit;
+    @media only screen and (min-width: 661px) {
+        .wrapper-invitation {
+            min-width: 400px;
+            min-height: 770px;
+        }
     }
 
-    #letter img {
-        height: 100%;
-        width: 100%;
-        max-height: 700px;
-
-
-        /* https://boxshadows.com/presets */
-        box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.1), 0px 1px 2px 0px rgba(0, 0, 0, 0.06);
-
+    @media only screen and (max-width: 660px) {
+        .wrapper-invitation {
+            transform: scale(0.8);
+            min-width: 400px;
+            min-height: 625px;
+        }
     }
 
-    #envelope button {
-        position: absolute;
-        display: block;
-        z-index: 15;
-        width: 70px;
-        height: 40px;
-        border-radius: 50%;
-        border: none;
-        background-color: #f9d585;
-        background: url('https://christiandelgado7.github.io/boda_files/envback.png') no-repeat top left;
-        font-weight: bold;
-        text-align: center;
-        color: #f1e5ca;
-        cursor: pointer;
-        top: calc(200px - 25px);
-        left: calc(140px - 25px);
-        transition: transform 1s, background-color 1s, color 1s;
-
+    @media only screen and (max-width: 520px) {
+        .wrapper-invitation {
+            transform: scale(0.7);
+            min-width: 400px;
+            min-height: 545px;
+        }
     }
 
-    #envelope button:hover {
-        background-color: pink;
-        transform: scale(1.5);
-        color: black;
-        transition: transform 1s, background-color 1s, color 1s;
+    @media only screen and (max-width: 450px) {
+        .wrapper-invitation {
+            transform: scale(0.5);
+            min-width: 220px;
+            min-height: 400px;
+        }
     }
+
+    @media only screen and (max-width: 350px) {
+        .wrapper-invitation {
+            transform: scale(0.4);
+            min-width: 220px;
+            min-height: 400px;
+        }
+    }
+
+    @media only screen and (max-width: 300px) {
+        .wrapper-invitation {
+            transform: scale(0.3);
+            min-height: 240px;
+            min-width: 170px;
+        }
+    }
+
+
+
 
 </style>
+
 <script>
-  function openUp() {
-    const $opentop = document.querySelector('#opentop');
-    const $top = document.querySelector('#top');
-    const $front = document.querySelector('#front');
-    const $back = document.querySelector('#back');
-    const $letter = document.querySelector('#letter');
-    const $button = document.querySelector('button');
+  function pullOut() {
+    const $button = document.querySelector('#env_btn');
+    $button.removeAttribute("onclick");
+    $button.classList.add('opened');
 
-    $opentop.beginElement();
-    $top.style.zIndex = 2;
-
-    $top.classList.add('animate');
-    $front.classList.add('animate');
-    $back.classList.add('animate');
-    $button.classList.add('animate');
-    $letter.classList.add('animate');
-
+    return new TimelineMax()
+      .to('.env_top', 1, {
+        rotationX: 180,
+        ease: Power1.easeInOut
+      }, 'scaleBack')
+      .to('.invitation', 1, {
+        scale: 0.8,
+        ease: Power4.easeInOut,
+      }, 'scaleBack')
+      .set('.env_top', {
+        zIndex: 0
+      })
+      .to('.card_invitation', 1, {
+        y: '20%',
+        scaleY: 1,
+        ease: Circ.easeInOut,
+      })
+      .set('.card_mask', {
+        //- Change overflow on mask
+        overflow: 'visible',
+      })
+      .set('.card_mask', {
+        zIndex: 10
+      })
+      .to('.card_mask', 1.3, {
+        'clip-path': 'inset(0 0 0% 0)',
+        ease: Circ.easeInOut,
+      }, 'moveDown')
+      // .to('.invitation', 1.5, {
+      //   scale: 1.15,
+      //   ease: Power4.easeInOut,
+      // }, 'scaleBack2')
+      .to('.card_invitation', 1.3, {
+        y: '100%',
+        scaleY: 1,
+        ease: Circ.easeInOut,
+      }, 'moveDown')
+      .to('.env_btn', 1, {
+        y: '380px',
+        ease: Circ.easeInOut,
+      }, 'moveDown+=0.15');
   }
 </script>
 
-<div id='wrapper-body'>
-  <div id='wrapper-envelope'>
-    <div id='envelope'>
-      <div id='back'>
-        <svg xmlns="http://www.w3.org/2000/svg"
-             xmlns:xlink="http://www.w3.org/1999/xlink"
-             height="300" width="300">
-          <defs>
-            <pattern id="env_front" x="0" y="0" width="1" height="1">
-              <image width="100%" height="100%" preserveAspectRatio="none"
-                     xlink:href="https://christiandelgado7.github.io/boda_files/envfront.png"/>
-            </pattern>
-            <pattern id="env_back" x="0" y="0" width="1" height="1">
-              <image width="100%" height="100%" preserveAspectRatio="none"
-                     xlink:href="https://christiandelgado7.github.io/boda_files/envback.png"/>
-            </pattern>
-          </defs>
-          <polygon
-                  points="0,100 300,100 300,300 0,300"
-                  style="fill:url(#env_back)#796479;stroke:none;stroke-width:0"/>
-        </svg>
+<div class="wrapper-invitation">
+  <div class="invitation">
+    <div class="envelope" id="envelope">
+      <div class="card_mask">
+        <div class="card_invitation">
+          <div class="card_face card_front">
+          </div>
+        </div>
       </div>
-      <div id='front'>
-        <svg xmlns="http://www.w3.org/2000/svg"
-             xmlns:xlink="http://www.w3.org/1999/xlink"
-             height="300" width="300">
-
-          <polygon
-                  points="0,100 150,200 300,100 300,300 0,300"
-                  style="fill:url(#env_front)#d9b0c4; stroke:#eedfc5; stroke-width:3"/>
-
-        </svg>
-      </div>
-      <div id='top'>
-        <svg xmlns="http://www.w3.org/2000/svg"
-             xmlns:xlink="http://www.w3.org/1999/xlink"
-             height="300" width="300">
-
-          <polygon
-                  points="0,100 150,200 300,100"
-                  style="fill:url(#env_front)#d9b0c4;stroke:#eedfc5;stroke-width:2">
-            <animate id='opentop' attributeName="points" dur="0.5s" fill="freeze"
-                     begin="indefinite"
-                     from="0,100 150,200 300,100"
-                     to="0,100 150,0 300,100"/>
-          </polygon>
-
-        </svg>
-      </div>
-      <div id='letter'>
-        <img src='https://christiandelgado7.github.io/boda_files/invitacion.svg'>
-      </div>
-      <button onclick='openUp()'>
-        Abreme
-      </button>
+      <div id="env_front" class="env_front"></div>
     </div>
+
+    <div id="top" class="env_top">
+      <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" height="180" width="500"><defs>
+        <pattern id="env_top_bg" x="0" y="0" width="1" height="1">
+          <image width="100%" height="100%" preserveaspectratio="none"
+                 xlink:href="https://i.imgur.com/nf4Yzfo.png">
+          </image>
+          <!--        <image width="100%" height="100%" preserveaspectratio="none"-->
+          <!--               xlink:href="https://christiandelgado7.github.io/boda_files/env-back2.png"></image>-->
+        </pattern>
+      </defs>
+        <polygon points="0,0 250,180 500,0" style="fill:url(#env_top_bg);">
+        </polygon>
+      </svg>
+    </div>
+    <!--  <button id="env_btn" class="env_btn" onclick="pullOut()">Abreme!</button>-->
+    <button id="env_btn" class="env_btn" onclick="pullOut()">
+      <img src="https://i.imgur.com/zUgm2qu.png" alt="buttonpng" border="0" />
+    </button>
   </div>
 </div>
-
 
 </body>
 </html>
